@@ -15,26 +15,20 @@
 # Due to security concerns with the exchange of R code, your code will not be run during the 
 # evaluation by your classmates. Please be sure that if they download the repo, they will be 
 # able to view the compiled HTML version of your analysis.
+# required package: lattice
+# required package: ggplot2
 
 library(caret)
-## Loading required package: lattice
-## Loading required package: ggplot2
 library(rpart)
 library(rpart.plot)
 library(RColorBrewer)
-# library(rattle)
-## Rattle: A free graphical interface for data mining with R.
-## Version 3.1.0 Copyright (c) 2006-2014 Togaware Pty Ltd.
-## Type 'rattle()' to shake, rattle, and roll your data.
 library(randomForest)
-## randomForest 4.6-10
-## Type rfNews() to see new features/changes/bug fixes.
-#Finally, load the same seed with the following line of code:
-  
+
+# Setting a seed number for Reproducibility
 set.seed(99876)
 
 # 
-# Pull the Training data into the trainData variable in memory
+# Pull the Training data into the trainData variable into a memory data frame
 #
 trainData <- read.table("https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv",
                          header=TRUE, sep=",", na.strings=c("NA","#DIV/0!",""), dec=".", strip.white=TRUE)
@@ -42,7 +36,7 @@ trainData <- read.table("https://d396qusza40orc.cloudfront.net/predmachlearn/pml
 summary(trainData)
 
 #
-# Pull the Test data into the testData variable in memory
+# Pull the Test data into the testData variable into a memory dataframe
 #
 testData <- read.table("https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv",
                        header=TRUE, sep=",", na.strings=c("NA","#DIV/0!",""), dec=".", strip.white=TRUE)
@@ -54,6 +48,7 @@ summary(testData)
 myTrain <- createDataPartition(y=trainData$classe, p=0.60, list=FALSE)
 myTraining <- trainData[myTrain, ]
 myTesting <- trainData[-myTrain, ]
+
 dim(myTraining) 
 dim(myTesting)
 
@@ -64,6 +59,7 @@ dim(myTesting)
 #
 myTrainingNZV <- nearZeroVar(myTraining, saveMetrics=TRUE)
 myTrainingCleanup <- myTraining[!myTrainingNZV$nzv]
+
 dim(myTrainingCleanup)
 
 #
